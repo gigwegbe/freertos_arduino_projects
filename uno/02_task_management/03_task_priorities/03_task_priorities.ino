@@ -1,6 +1,5 @@
 /*
-Create 3 instance of the same task. 
-All using different threads with one task function. 
+Experimenting with task priorities. 
 */
 
 
@@ -17,26 +16,42 @@ TaskProfiler RedLEDProfiler;
 TaskProfiler YellowLEDProfiler;
 TaskProfiler BlueLEDProfiler;
 
-const uint16_t *redLed = (uint16_t *) RED;
-const uint16_t *blueLed = (uint16_t *) BLUE; 
-const uint16_t *yellowLed = (uint16_t *) YELLOW;
+//const uint16_t *redLed = (uint16_t *) RED;
+//const uint16_t *blueLed = (uint16_t *) BLUE; 
+//const uint16_t *yellowLed = (uint16_t *) YELLOW;
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
-  xTaskCreate(ledControllerTask,"RED LED Task", 128, (void *)redLed, 1, NULL); 
-  xTaskCreate(ledControllerTask,"BLUE LED Task", 128, (void *)blueLed, 1, NULL); 
-  xTaskCreate(ledControllerTask,"YELLOW LED Task", 128, (void *)yellowLed, 1, NULL); 
+  xTaskCreate(redLedControllerTask,"RED LED Task", 128, NULL, 1, NULL); 
+  xTaskCreate(blueLedControllerTask,"BLUE LED Task", 128, NULL, 1, NULL); 
+  xTaskCreate(yellowLedControllerTask,"YELLOW LED Task", 128, NULL, 3, NULL); 
 }
 
-void ledControllerTask(void * pvParameters)
+void redLedControllerTask(void * pvParameters)
 {
   pinMode(RED, OUTPUT);
-  pinMode(YELLOW, OUTPUT);
+  while(1){
+    digitalWrite(RED, digitalRead(RED)^1); 
+  }
+}
+
+
+void blueLedControllerTask(void * pvParameters)
+{
   pinMode(BLUE, OUTPUT);
   while(1){
-    digitalWrite(pvParameters, digitalRead(pvParameters)^1); 
-    vTaskDelay(100);
+    digitalWrite(BLUE, digitalRead(BLUE)^1); 
+  }
+}
+
+
+void yellowLedControllerTask(void * pvParameters)
+{
+
+  pinMode(YELLOW, OUTPUT);
+  while(1){
+    digitalWrite(YELLOW, digitalRead(YELLOW)^1); 
   }
 }
 
