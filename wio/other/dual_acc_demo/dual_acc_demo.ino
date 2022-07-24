@@ -137,6 +137,7 @@ void loop() {
         Serial.print(gx); Serial.print("\t");
         Serial.print(gy); Serial.print("\t");
         Serial.println(gz);
+        Serial.println(" ");
         Serial.print("a/g2:\t");
         Serial.print(ax2); Serial.print("\t");
         Serial.print(ay2); Serial.print("\t");
@@ -154,7 +155,7 @@ void loop() {
         Serial.write((uint8_t)(gy >> 8)); Serial.write((uint8_t)(gy & 0xFF));
         Serial.write((uint8_t)(gz >> 8)); Serial.write((uint8_t)(gz & 0xFF));
         
-        Serial.write((uint8_t)(ax2 >> 8)); Serial.write((uint8_t)(ax2u & 0xFF));
+        Serial.write((uint8_t)(ax2 >> 8)); Serial.write((uint8_t)(ax2 & 0xFF));
         Serial.write((uint8_t)(ay2 >> 8)); Serial.write((uint8_t)(ay2 & 0xFF));
         Serial.write((uint8_t)(az2 >> 8)); Serial.write((uint8_t)(az2 & 0xFF));
         Serial.write((uint8_t)(gx2 >> 8)); Serial.write((uint8_t)(gx2 & 0xFF));
