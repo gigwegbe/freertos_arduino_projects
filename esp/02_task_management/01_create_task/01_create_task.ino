@@ -10,24 +10,27 @@
 #define YELLOW  32
 #define BLUE    22
 
+
+typedef int TaskProfiler;
+
+TaskProfiler RedLEDProfiler; 
+TaskProfiler YellowLEDProfiler;
+TaskProfiler BlueLEDProfiler;
+
 void setup() {
   // put your setup code here, to run once:
-  pinMode(RED, OUTPUT);
-  pinMode(YELLOW, OUTPUT);
-  pinMode(BLUE, OUTPUT);
-
+  Serial.begin(115200);
   xTaskCreatePinnedToCore(redLedControllerTask,"RED LED Task", 2048, NULL, 1, NULL, ARDUINO_RUNNING_CORE); 
   xTaskCreatePinnedToCore(blueLedControllerTask,"BLUE LED Task", 2048, NULL, 1, NULL, ARDUINO_RUNNING_CORE); 
   xTaskCreatePinnedToCore(yellowLedControllerTask,"YELLOW LED Task", 2048, NULL, 1, NULL, ARDUINO_RUNNING_CORE); 
-  
 }
 
 void redLedControllerTask(void * pvParameters)
 {
   pinMode(RED, OUTPUT);
   while(1){
-    digitalWrite(RED, digitalRead(RED)^1);
-    vTaskDelay(300);
+    Serial.println("This is Red");
+    vTaskDelay(100);
   }
 }
 
@@ -35,21 +38,23 @@ void blueLedControllerTask(void * pvParameters)
 {
   pinMode(BLUE, OUTPUT);
   while(1){
-    digitalWrite(BLUE, digitalRead(BLUE)^1);
-    vTaskDelay(300);
+    Serial.println("This is Yellow");
+    vTaskDelay(100);
   }
 }
+
 
 void yellowLedControllerTask(void * pvParameters)
 {
   pinMode(YELLOW, OUTPUT);
   while(1){
-    digitalWrite(YELLOW, digitalRead(YELLOW)^1);
-    vTaskDelay(300);
+    Serial.println("This is Blue");
+    vTaskDelay(100);
   }
 }
 
 
 void loop() {
-  
+  // put your main code here, to run repeatedly:
+
 }
